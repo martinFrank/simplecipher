@@ -6,7 +6,7 @@ import java.util.stream.IntStream;
 public class Code {
 
     private static final String[] LETTERS = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-    private static final String[] NUMBERS = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26"};
+    private static final String[] NUMBERS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26"};
 
     public static final Code PLAIN = new Code(LETTERS);
     public static final Code NUMERAL = new Code(NUMBERS);
@@ -61,8 +61,8 @@ public class Code {
         encoding.clear();
         decoding.clear();
         for(int i = 0; i < 26; i ++){
-            encoding.put(LETTERS[i], code[i]);
-            decoding.put(code[i], LETTERS[i]);
+            encoding.put(LETTERS[i], code[i].toUpperCase());
+            decoding.put(code[i].toUpperCase(), LETTERS[i]);
         }
     }
 
@@ -86,13 +86,13 @@ public class Code {
         String format = "%"+size+"s";
         final StringBuffer encodeKeys = new StringBuffer();
         final StringBuffer encodeValues = new StringBuffer();
-        decoding.entrySet().stream().sorted(Map.Entry.comparingByValue()).forEach(entry -> {
+        encoding.entrySet().stream().sorted(Map.Entry.comparingByKey()).forEach(entry -> {
             encodeKeys.append(String.format(format, entry.getKey()));
             encodeValues.append(String.format(format, entry.getValue()));
         });
         System.out.println("encode:");
-        System.out.println(encodeValues.toString());
         System.out.println(encodeKeys.toString());
+        System.out.println(encodeValues.toString());
 
         final StringBuffer decodeKeys = new StringBuffer();
         final StringBuffer decodeValues = new StringBuffer();
@@ -122,8 +122,12 @@ public class Code {
     }
 
     private static String[] random(String[] input){
-        List<String> random = Arrays.asList(input);
+        List<String> random = Arrays.asList(Arrays.copyOf(input,26));
+        String[] shuffled = new String[26];
         Collections.shuffle(random);
-        return random.toArray(new String[0]);
+        for(int i = 0; i < 26; i ++){
+            shuffled[i] = random.get(i);
+        }
+        return shuffled;
     }
 }

@@ -19,7 +19,6 @@ public class DecodeCommand extends CodeCommand {
     public Response execute(List<String> parameter) {
         List<String> clean = new ArrayList<>();
         parameter.forEach(s -> clean.addAll(Arrays.asList(s.split(","))) );
-        System.out.println(clean);
         String decoded = getCode().decode(clean.toArray(new String[0]));
         System.out.println(decoded);
         return Response.success();

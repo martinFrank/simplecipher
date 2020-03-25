@@ -22,46 +22,48 @@ public class SetCodeCommand extends CodeCommand{
         parameter.forEach(s -> code.addAll(Arrays.asList(s.split(","))) );
         if(code.size() == 26){
             newCode = code.toArray(new String[0]);
-        }
-        if (parameter.size() == 1){
-            if("numbers".equalsIgnoreCase(parameter.get(0))){
-                newCode = Code.numbers();
+        }else {
+            if (parameter.size() == 1) {
+                if ("numbers".equalsIgnoreCase(parameter.get(0))) {
+                    newCode = Code.numbers();
+                }
+                if ("letters".equalsIgnoreCase(parameter.get(0))) {
+                    newCode = Code.letters();
+                }
             }
-            if("letters".equalsIgnoreCase(parameter.get(0))){
-                newCode = Code.letters();
-            }
-        }
 
-        if (parameter.size() == 2){
-            if("random".equalsIgnoreCase(parameter.get(0))){
-                if("numbers".equalsIgnoreCase(parameter.get(1))){
-                    newCode = Code.randomNumbers();
+            if (parameter.size() == 2) {
+                if ("random".equalsIgnoreCase(parameter.get(0))) {
+                    if ("numbers".equalsIgnoreCase(parameter.get(1))) {
+                        newCode = Code.randomNumbers();
+                    }
+                    if ("letters".equalsIgnoreCase(parameter.get(1))) {
+                        newCode = Code.randomLetters();
+
+                    }
                 }
-                if("letters".equalsIgnoreCase(parameter.get(1))){
-                    newCode = Code.randomLetters();
+                if ("revert".equalsIgnoreCase(parameter.get(0))) {
+                    if ("numbers".equalsIgnoreCase(parameter.get(1))) {
+                        newCode = Code.revertNumbers();
+                    }
+                    if ("letters".equalsIgnoreCase(parameter.get(1))) {
+                        newCode = Code.revertLetters();
+                    }
                 }
-            }
-            if("revert".equalsIgnoreCase(parameter.get(0))){
-                if("numbers".equalsIgnoreCase(parameter.get(1))){
-                    newCode = Code.revertNumbers();
-                }
-                if("letters".equalsIgnoreCase(parameter.get(1))){
-                    newCode = Code.revertLetters();
-                }
-            }
-            if("cesar".equalsIgnoreCase(parameter.get(0))){
-                try{
-                    int shift = Integer.parseInt(parameter.get(1));
-                    newCode = Code.cesar(shift);
-                }catch (NumberFormatException e){
-                    return Response.fail(""+e.toString()+"could not set code "+parameter);
+                if ("cesar".equalsIgnoreCase(parameter.get(0))) {
+                    try {
+                        int shift = Integer.parseInt(parameter.get(1));
+                        newCode = Code.cesar(shift);
+                    } catch (NumberFormatException e) {
+                        return Response.fail("" + e.toString() + "could not set code " + parameter);
+                    }
                 }
             }
         }
 
         try {
             getCode().createCode(newCode);
-            System.out.println("code successfully set");
+            System.out.println("code successfully set "+Arrays.asList(newCode));
             return Response.success();
         } catch (Exception e) {
             return Response.fail(""+e.toString()+"could not set code "+parameter);
